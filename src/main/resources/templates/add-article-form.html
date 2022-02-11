@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form th:action="@{/user/insert-article}" th:object="${newArticle}" method="post">
+    <table>
+        <tbody>
+        <tr>
+            <th><label for="title">Title</label></th>
+            <th><input type="text" th:field="*{title}" id="title" placeholder="title"></th>
+            <th><span th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></span></th>
+        </tr>
+        <tr>
+            <th><label for="brief">Brief</label></th>
+            <th><input type="text" th:field="*{brief}" id="brief" placeholder="brief"></th>
+            <th><span th:if="${#fields.hasErrors('brief')}" th:errors="*{brief}"></span></th>
+        </tr>
+        <tr>
+            <th><label for="content"> Content </label></th>
+            <th><input type="text" th:field="*{content}" id="content"></th>
+            <th><span th:if="${#fields.hasErrors('content')}" th:errors="*{content}"></span></th>
+        </tr>
+
+        <tr>
+            <th><label for="category"> Category </label></th>
+            <th>
+                <select th:field="*{category}">
+                    <option th:each="cat : ${categoryList}" th:value="${cat.id}" th:text="${cat.title}"
+                            id="category"></option>
+                </select>
+            </th>
+            <th><span th:if="${#fields.hasErrors('category')}" th:errors="*{category}"></span></th>
+        </tr>
+        <tr><th>Tags:</th><th></th><th></th></tr>
+        <tr th:each="tag:${tags}">
+            <th><label th:for="${tag.title}" th:text="${tag.title}"></label></th>
+            <th>
+                <input type="checkbox" th:field="*{tags}" th:value="${tag.id}" th:id="${tag.title}"></input>
+            </th>
+            <th><span th:if="${#fields.hasErrors('category')}" th:errors="*{category}"></span></th>
+        </tr>
+
+        </tbody>
+    </table>
+    <br>
+    <input type="submit" value="Confirm Add Article">
+</form>
+<h2><a th:href="@{/logout}"> Logout </a></h2>
+</body>
+</html>

@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form  method="post" th:action=" @{/user/pass-process}">
+    <p>
+        <label for="password" >New Password</label>
+        <input type="password" id="password" name="password"  placeholder="Password" required>
+    </p>
+    <button  type="submit">Save</button>
+</form>
+
+<h2><a th:href="@{/logout}"> Logout </a></h2>
+</body>
+</html>

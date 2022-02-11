@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div sec:authorize="isAuthenticated()" style="text-align: right">
+    User: <div sec:authentication="name"></div>
+    Authorities:<div sec:authentication="principal.authorities"></div>
+</div>
+<br>
+<br>
+<div sec:authorize="!isAuthenticated()">
+<a th:href="@{/login}">Login</a> </p></div>
+<br>
+<div sec:authorize="hasRole('ADMIN')">
+    <a th:href="@{/admin/profile}">Admin Profile</a> </p>
+</div>
+<div sec:authorize="hasRole('WRITER')">
+    <a th:href="@{/user/profile}">Writer Profile</a> </p>
+</div>
+<br>
+<br>
+<p><a th:href="@{/register}">User register</a></p>
+<br>
+<br>
+<p><a th:href="@{/articles-list}">All Articles</a></p>
+<br>
+<br>
+<div sec:authorize="isAuthenticated()">
+    <p><a th:href="@{/logout}">Logout </a></p>
+</div>
+</body>
+</html>

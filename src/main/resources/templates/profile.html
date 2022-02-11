@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" th:href="@{/table-test.css}">
+</head>
+<body>
+<h1>User Profile</h1>
+<hr>
+
+<div th:switch="${loggedInUserArticles}">
+    <h2 th:case="null">No articles yet!</h2>
+    <div th:case="*">
+        <h1>Articles</h1>
+        <table class="container">
+            <thead>
+            <tr>
+                <th><h1>No</h1></th>
+                <th><h1>Title</h1></th>
+                <th><h1>Brief</h1></th>
+                <th><h1>Content</h1></th>
+                <th><h1>Create Date</h1></th>
+                <th><h1>Last Update</h1></th>
+                <th><h1>Publish Date</h1></th>
+                <th><h1>Publish Status</h1></th>
+                <th><h1>Edit</h1></th>
+                <th><h1>Delete</h1></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="userArticles , iterstat : ${loggedInUserArticles}">
+                <td th:text="${iterstat.count}"></td>
+                <td th:text="${userArticles.getTitle()}"></td>
+                <td th:text="${userArticles.getBrief()}"></td>
+                <td th:text="${userArticles.getContent()}"></td>
+                <td th:text="${userArticles.getCreateDate()}"></td>
+                <td th:text="${userArticles.getLastUpdateDate()}"></td>
+                <td th:text="${userArticles.getPublishDate()}"></td>
+                <td th:text="${userArticles.getIsPublished()}"></td>
+                <td><a th:href="@{/user/edit-article(id=${userArticles.getId()})}">edit</a></td>
+                <td><a th:href="@{/user/delete-article(id=${userArticles.getId()})}">delete</a></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<h2><a th:href="@{/user/pass-edit}"> Change Password</a></h2>
+<h2><a th:href="@{/user/add-article}"> add a new article</a></h2>
+<h2><a th:href="@{/home}"> home page </a></h2>
+<h2><a th:href="@{/logout}"> Logout </a></h2>
+</body>
+</html>

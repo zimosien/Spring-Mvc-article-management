@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div th:switch="${article}">
+    <h2 th:case="null">No article!</h2>
+    <div th:case="*">
+        <table border="1">
+            <thead>
+            <tr>
+                <th>Title</th>
+                <th>Brief</th>
+                <th>Content</th>
+                <th>Create Date</th>
+                <th>Last Update</th>
+                <th>Publish Date</th>
+                <th>Publish Status</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:object="${article}">
+                <td th:text="${article.getTitle()}"></td>
+                <td th:text="${article.getBrief()}"></td>
+                <td th:text="${article.getContent()}"></td>
+                <td th:text="${article.getCreateDate()}"></td>
+                <td th:text="${article.getLastUpdateDate()}"></td>
+                <td th:text="${article.getPublishDate()}"></td>
+                <td th:text="${article.getIsPublished()}"></td>
+                <!--                <td><a th:href="@{/edit/{id}(id=${user.id})}">Edit</a></td>-->
+                <!--                <td><a th:href="@{/delete/{id}(id=${user.id})}">Delete</a></td>-->
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    </div>
+<br>
+<br>
+<p><a th:href="@{/home}" > home page </a></p>
+<br>
+<br>
+<p><a th:href="@{/articles-list}" > Articles list </a></p>
+</body>
+</html>

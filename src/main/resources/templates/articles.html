@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div th:switch="${articlesList}">
+    <h2 th:case="null">No articles yet!</h2>
+    <div th:case="*">
+        <h2>Articles</h2>
+        <table border="1">
+            <thead>
+            <tr>
+                <th>No</th>
+                <th>Title</th>
+                <th>Brief</th>
+                <th>Detail</th>
+<!--                <th>Content</th>-->
+<!--                <th>Create Date</th>-->
+<!--                <th>Last Update</th>-->
+<!--                <th>Publish Date</th>-->
+<!--                <th>Publish Status</th>-->
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="art, iterstat : ${articlesList}">
+                <td th:text="${iterstat.count}"></td>
+                <td th:text="${art.getTitle()}"></td>
+                <td th:text="${art.getBrief()}"></td>
+                <td ><a th:href="@{/article-detail(id=${art.getId()})}">link</a></td>
+<!--                <td th:text="${art.getContent()}"></td>-->
+<!--                <td th:text="${art.getCreateDate()}"></td>-->
+<!--                <td th:text="${art.getLastUpdateDate()}"></td>-->
+<!--                <td th:text="${art.getPublishDate()}"></td>-->
+<!--                <td th:text="${art.getIsPublished()}"></td>-->
+<!--                <td><a th:href="@{/edit/{id}(id=${user.id})}">Edit</a></td>-->
+<!--                <td><a th:href="@{/delete/{id}(id=${user.id})}">Delete</a></td>-->
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <p><a th:href="@{/home}" > home page </a></p>
+</div>
+</body>
+</html>

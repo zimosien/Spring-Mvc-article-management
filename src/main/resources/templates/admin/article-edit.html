@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<form th:action="@{/admin/update-article}" th:object="${article}" method="post">
+    <input type="hidden" name="id" th:value="*{id}">
+    <input type="hidden" name="user" th:value="*{user.getId()}">
+    <input type="hidden" name="publishDate" th:value="*{publishDate}">
+    <input type="hidden" name="createDate" th:value="*{createDate}">
+    <input type="hidden" name="title" th:value="*{title}">
+    <input type="hidden" name="brief" th:value="*{brief}">
+    <input type="hidden" name="content" th:value="*{content}">
+    <table>
+        <tbody>
+        <tr>
+            <th><label for="category"> Category </label></th>
+            <th>
+                <select th:field="*{category}">
+                    <option th:each="cat : ${categoryList}" th:value="${cat.id}" th:text="${cat.title}" id="category"></option>
+                </select>
+            </th>
+            <th><span th:if="${#fields.hasErrors('category')}" th:errors="*{category}"></span></th>
+        </tr>
+        <tr>
+            <th><label th:for="is-pub"> Publishment Status: </label></th>
+            <th>
+                publish: <input type="radio" th:value="true" th:field="*{isPublished}" th:id="is-pub">
+                not published:<input type="radio" th:value="false" th:field="*{isPublished}" th:id="is-pub">
+            </th>
+            <th><span th:if="${#fields.hasErrors('isPublished')}" th:errors="*{isPublished}"></span></th>
+        </tr>
+
+        </tbody>
+    </table>
+    <br>
+    <input type="submit" value="Confirm Update">
+</form>
+<h2><a th:href="@{/logout}"> Logout </a></h2>
+</body>
+</html>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Categories</title>
+    <link rel="stylesheet" th:href="@{/table-test.css}">
+</head>
+<body>
+<div th:switch="${categories}">
+    <h2 th:case="null">No categories yet!</h2>
+    <div th:case="*">
+        <h1>Categories</h1>
+        <table class="container">
+            <thead>
+            <tr>
+                <th><h1>No</h1></th>
+                <th><h1>Title</h1></th>
+                <th><h1>Description</h1></th>
+                <th><h1>Edit</h1></th>
+                <th><h1>Delete</h1></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="cat, iterstat : ${categories}">
+                <td th:text="${iterstat.count}"></td>
+                <td th:text="${cat.title}"></td>
+                <td th:text="${cat.description}"></td>
+                <td><a th:href="@{/admin/edit-category(id=${cat.getId()})}">edit</a></td>
+                <td><a th:href="@{/admin/delete-category(id=${cat.getId()})}">delete</a></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<h2><a th:href="@{/admin/insert-category}"> Add Category </a></h2>
+<p><a th:href="@{/admin/profile}" style="color: #4DC3FA"> Profile </a></p>
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" th:href="@{/table-test.css}">
+</head>
+<body>
+<div th:switch="${allArticles}">
+    <h2 th:case="null">No articles yet!</h2>
+    <div th:case="*">
+        <h1>Articles</h1>
+        <table class="container">
+            <thead>
+            <tr>
+                <th><h1>No</h1></th>
+                <th><h1>Title</h1></th>
+                <th><h1>Brief</h1></th>
+                <th><h1>Content</h1></th>
+                <th><h1>Create Date</h1></th>
+                <th><h1>Last Update</h1></th>
+                <th><h1>Publish Date</h1></th>
+                <th><h1>Publish Status</h1></th>
+                <th><h1>Writer</h1></th>
+                <th><h1>Category</h1></th>
+                <th><h1>Edit</h1></th>
+                <th><h1>Delete</h1></th>
+            </tr>
+            </thead>
+            <tbody>
+            <!-- iteration status or iterstat is defined right after the th:each variable. it has some very
+            useful methods relating to the iteration of he foreach here. iterstat.count can help you with
+            the numeration of your rows.-->
+            <tr th:each="article, iterstat : ${allArticles}">
+                <td th:text="${iterstat.count}"></td>
+                <td th:text="${article.getTitle()}"></td>
+                <td th:text="${article.getBrief()}"></td>
+                <td th:text="${article.getContent()}"></td>
+                <td th:text="${article.getCreateDate()}"></td>
+                <td th:text="${article.getLastUpdateDate()}"></td>
+                <td th:text="${article.getPublishDate()}"></td>
+                <td th:text="${article.getIsPublished()}"></td>
+                <td th:text="${article.user.userName}"></td>
+                <td th:text="${article.category.title}"></td>
+                <td><a th:href="@{/admin/edit-article(id=${article.getId()})}">edit</a></td>
+                <td><a th:href="@{/admin/delete-article(id=${article.getId()})}">delete</a></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<p><a th:href="@{/admin/profile}" style="color: #4DC3FA"> Profile </a></p>
+</body>
+</html>

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Users</title>
+    <link rel="stylesheet" th:href="@{/table-test.css}">
+</head>
+<body>
+<div th:switch="${users}">
+    <h2 th:case="null">No users yet!</h2>
+    <div th:case="*">
+        <h1>Users</h1>
+        <table class="container">
+            <thead>
+            <tr>
+                <th><h1>No</h1></th>
+                <th><h1>UserName</h1></th>
+                <th><h1>Birthday</h1></th>
+                <th><h1>National Code</h1></th>
+                <th><h1>Edit</h1></th>
+                <th><h1>Delete</h1></th>
+            </tr>
+            </thead>
+            <tbody>
+            <!-- iteration status or iterstat is defined right after the th:each variable. it has some very
+            useful methods relating to the iteration of the foreach here. iterstat.count can help you with
+            the numeration of your rows.-->
+            <tr th:each="user, iterstat : ${users}">
+                <td th:text="${iterstat.count}"></td>
+                <td th:text="${user.userName}"></td>
+                <td th:text="${user.birthday}"></td>
+                <td th:text="${user.nationalCode}"></td>
+                <td><a th:href="@{/admin/edit-user(id=${user.getId()})}">edit</a></td>
+                <td><a th:href="@{/admin/delete-user(id=${user.getId()})}">delete</a></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<p><a th:href="@{/admin/profile}" style="color: #4DC3FA"> Profile </a></p>
+</body>
+</html>
