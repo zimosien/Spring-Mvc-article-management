@@ -11,8 +11,7 @@
     <input type="hidden" name="user" th:value="*{user.getId()}">
     <input type="hidden" name="publishDate" th:value="*{publishDate}">
     <input type="hidden" name="createDate" th:value="*{createDate}">
-
-    <input type="hidden" name="pre-publish" th:value="*{isPublished}">
+    <input type="hidden" name="isPublished" th:value="*{isPublished}">
     <table>
         <tbody>
         <tr>
@@ -41,27 +40,16 @@
             </th>
             <th><span th:if="${#fields.hasErrors('category')}" th:errors="*{category}"></span></th>
         </tr>
-        <div th:switch="${userArticle.getIsPublished()}">
-            <input th:case="true" type="hidden" name="isPublished" th:value="*{isPublished}">
-            <div th:case="false">
-                <tr>
-                    <th><label th:for="is-pub"> Publishment Status: </label></th>
-                    <th>
-                        publish: <input type="radio" th:value="true" th:field="*{isPublished}" th:id="is-pub">
-                        not published:<input type="radio" th:value="false" th:field="*{isPublished}" th:id="is-pub">
-                    </th>
-                    <th><span th:if="${#fields.hasErrors('isPublished')}" th:errors="*{isPublished}"></span></th>
-                </tr>
-                <tr><th>Tags:</th><th></th><th></th></tr>
-                <tr th:each="tag:${tags}">
-                    <th><label th:for="${tag.title}" th:text="${tag.title}"></label></th>
-                    <th>
-                        <input type="checkbox" th:field="*{tags}" th:value="${tag.id}" th:id="${tag.title}"></input>
-                    </th>
-                    <th><span th:if="${#fields.hasErrors('category')}" th:errors="*{category}"></span></th>
-                </tr>
-            </div>
-        </div>
+        <tr>
+            <th>Tags:</th>
+        </tr>
+        <tr th:each="tag:${tags}">
+            <th><label th:for="${tag.title}" th:text="${tag.title}"></label></th>
+            <th>
+                <input type="checkbox" th:field="*{tags}" th:value="${tag.id}" th:id="${tag.title}"/>
+            </th>
+            <th></th>
+        </tr>
         </tbody>
     </table>
     <br>

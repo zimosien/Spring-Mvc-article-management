@@ -38,7 +38,7 @@
         <tr th:each="tag:${tags}">
             <th><label th:for="${tag.title}" th:text="${tag.title}"></label></th>
             <th>
-                <input type="checkbox" th:field="*{tags}" th:value="${tag.id}" th:id="${tag.title}"></input>
+                <input type="checkbox" th:field="*{tags}" th:value="${tag.id}" th:id="${tag.title}"/>
             </th>
             <th><span th:if="${#fields.hasErrors('category')}" th:errors="*{category}"></span></th>
         </tr>

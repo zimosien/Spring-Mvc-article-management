@@ -88,13 +88,6 @@ public class Controller {
         User oneUser = userService.findByUsername(principal.getName());
         if (oneUser!=null) {
             session.setAttribute("loggedInUserId",oneUser.getId());
-//            List<GrantedAuthority> authorities =
-//                    (List<GrantedAuthority>) SecurityContextHolder.getContext().getAuthentication().getAuthorities();
-//            for (GrantedAuthority authority:authorities) {
-//                if (authority.getAuthority().equals("ROLE_ADMIN"))
-//                    return "redirect:/admin/profile";
-//            }
-//            return "redirect:/user/profile";
             return "redirect:/home";
         } else
             throw new UserNotFoundException("requested user does not exist!");

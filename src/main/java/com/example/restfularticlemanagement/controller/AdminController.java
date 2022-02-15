@@ -95,18 +95,16 @@ public class AdminController {
     public String editUser(@RequestParam("id") Integer id, Model model) {
         User user = userService.findById(id);
         List<Role> roles = roleService.findAll();
-        model.addAttribute("userId", id);
+        model.addAttribute("user", user);
         model.addAttribute("allRoles", roles);
         return "admin/edit-user";
     }
 
     @RequestMapping("/update-user")
-    public String updateUser(HttpServletRequest request) {
-        Integer userId = Integer.parseInt(request.getParameter("userId"));
-        Integer selectedRoleId = Integer.parseInt(request.getParameter("selectedRole"));
-        Role role = roleService.findById(selectedRoleId);
+    public String updateUser(@ModelAttribute("user")User newUser) {
+        Integer userId = newUser.getId();
         User user = userService.findById(userId);
-        user.getRoles().add(role);
+        user.setRoles(newUser.getRoles());
         userService.save(user);
         return "redirect:/admin/users";
     }

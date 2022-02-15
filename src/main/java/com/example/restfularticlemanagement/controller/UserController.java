@@ -4,6 +4,7 @@ import com.example.restfularticlemanagement.entity.Article;
 import com.example.restfularticlemanagement.entity.Category;
 import com.example.restfularticlemanagement.entity.Tag;
 import com.example.restfularticlemanagement.entity.User;
+import com.example.restfularticlemanagement.exception.UnAuthorizedParamRequestException;
 import com.example.restfularticlemanagement.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -83,8 +84,11 @@ public class UserController {
     }
 
     @RequestMapping("/edit-article")
-    public String editArticle(@RequestParam("id") Integer id, Model model) {
+    public String editArticle(@RequestParam("id") Integer id, Model model,HttpSession session) {
         Article userArticle = articleService.findById(id);
+        User user = userArticle.getUser();
+        if (user.getId()!=session.getAttribute("loggedInUserId"))
+            throw new UnAuthorizedParamRequestException("You are not allowed to access this article!");
         model.addAttribute("userArticle", userArticle);
         List<Category> allCategories = categoryService.findAll();
         model.addAttribute("categoryList", allCategories);
@@ -97,19 +101,17 @@ public class UserController {
     public String updateArticle(@ModelAttribute("userArticle") Article article, HttpServletRequest request) {
         LocalDate now = LocalDate.now();
         String stringUpdateDate = now.toString().substring(0, 10);
-        String parameter = request.getParameter("pre-publish");
-        boolean b = Boolean.parseBoolean(parameter);
-        if (article.getIsPublished() != b)
-            article.setPublishDate(now.toString());
         article.setLastUpdateDate(stringUpdateDate);
         articleService.save(article);
         return "redirect:/user/profile";
     }
     @RequestMapping("/delete-article")
-    public String deleteArticle(@RequestParam("id") Integer id) {
+    public String deleteArticle(@RequestParam("id") Integer id,HttpSession session) {
         Article userArticle = articleService.findById(id);
-        Article article = userArticle;
-        articleService.delete(article);
+        User user = userArticle.getUser();
+        if (user.getId()!=session.getAttribute("loggedInUserId"))
+            throw new UnAuthorizedParamRequestException("You are not allowed to access this article!");
+        articleService.delete(userArticle);
         return "redirect:/user/profile";
     }
 
