@@ -52,4 +52,15 @@ public class UserServiceImpl implements GeneralService<User, Integer> {
             throw new UserNotFoundException("User not found!");
         return user;
     }
+
+    @Transactional()
+    public User findUserByName(String username){
+        User user = userDao.findByUserName(username);
+        return user;
+    }
+    @Transactional()
+    public User findByNationalCode(String nationalCode){
+        User user = userDao.findByNationalCode(nationalCode);
+        return user;
+    }
 }

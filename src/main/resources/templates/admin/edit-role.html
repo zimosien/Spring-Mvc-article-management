@@ -6,7 +6,9 @@
 </head>
 <body>
 <form th:action="@{/admin/save-role}" th:object="${role}" method="post">
+    <input type="hidden" name="origin" value="edit">
     <input type="hidden" th:field="*{id}" th:value="*{id}">
+    <p>*Insert the new role without "ROLE_" </p>
     <table>
         <tbody>
         <tr>

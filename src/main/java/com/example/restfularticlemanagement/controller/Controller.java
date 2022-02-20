@@ -1,7 +1,5 @@
 package com.example.restfularticlemanagement.controller;
 
-import com.example.restfularticlemanagement.dto.UserDetailDto;
-import com.example.restfularticlemanagement.entity.Category;
 import com.example.restfularticlemanagement.entity.Role;
 import com.example.restfularticlemanagement.exception.UserNotFoundException;
 import com.example.restfularticlemanagement.service.*;
@@ -9,21 +7,15 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import com.example.restfularticlemanagement.entity.Article;
 import com.example.restfularticlemanagement.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.net.http.HttpRequest;
+import javax.validation.Valid;
 import java.security.Principal;
-import java.time.LocalDate;
-import java.util.Collection;
 import java.util.List;
-import java.util.Set;
+
 
 @org.springframework.stereotype.Controller
 @RequestMapping
@@ -47,17 +39,22 @@ public class Controller {
         return "home";
     }
 
-    @RequestMapping("/register")
-    public String registerPage(Model model) {
+    @RequestMapping(value = "/register")
+    public String registerPage(Model model){
         model.addAttribute("userr", new User());
         return "register";
     }
 
     @PostMapping("/user-registered")
-    public String registeredPage(@ModelAttribute("userr") User user) {
-        User byUsername = userService.findByUsername(user.getUserName());
+    public String registeredPage(@Valid @ModelAttribute("userr") User user, BindingResult bindingResult) {
+        if (bindingResult.hasErrors())
+            return "register";
+        User byUsername = userService.findUserByName(user.getUserName());
         if (byUsername!=null)
-            return "redirect:/register";
+            return "redirect:/register?user_exists";
+        User byNationalCode = userService.findByNationalCode(user.getNationalCode());
+        if(byNationalCode!=null)
+            return "redirect:/register?n_code_exists";
         user.setPassword(passwordEncoder.encode(user.getNationalCode()));
         Role role = roleService.findRoleByTitle("ROLE_WRITER");
         user.getRoles().add(role);

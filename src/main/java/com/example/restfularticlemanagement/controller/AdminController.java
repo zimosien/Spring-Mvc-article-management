@@ -8,12 +8,15 @@ import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -42,13 +45,17 @@ public class AdminController {
     }
 
 //    Article Section
-
+     @ResponseBody
     @RequestMapping("/articles")
-    public String allArticles(Model model) {
-        List<Article> articles = articleService.findAll();
-        model.addAttribute("allArticles", articles);
-        return "admin/articles";
+    public List<Article> allArticles() {
+         return  articleService.findAll();
     }
+//    @RequestMapping("/articles")
+//    public String allArticles(Model model) {
+//        List<Article> articles = articleService.findAll();
+//        model.addAttribute("allArticles", articles);
+//        return "admin/articles";
+//    }
 
     @RequestMapping("/edit-article")
     public String editArticle(@RequestParam("id") Integer id, Model model) {
@@ -175,8 +182,15 @@ public class AdminController {
     }
 
     @RequestMapping("/save-role")
-    public String saveCategory(@ModelAttribute("role") Role role) {
-        String theRoleTitle = role.getTitle().toUpperCase();
+    public String saveCategory(@Valid @ModelAttribute("role") Role role,
+                               BindingResult bindingResult, HttpServletRequest request) {
+        if (bindingResult.hasErrors()){
+            String origin = request.getParameter("origin");
+           if(origin.equals("insert"))
+               return "admin/insert-role";
+           return "admin/edit-role";
+        }
+        String theRoleTitle ="ROLE_".concat(role.getTitle().toUpperCase());
         role.setTitle(theRoleTitle);
         roleService.save(role);
         return "redirect:/admin/roles";
