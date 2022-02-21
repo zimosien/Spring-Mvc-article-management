@@ -7,6 +7,7 @@ import net.bytebuddy.build.Plugin;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 
@@ -17,7 +18,7 @@ public class UserDetailDto implements UserDetails {
     public UserDetailDto(User user) {
         this.user = user;
     }
-
+    @Transactional
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<GrantedAuthority> authorities = new ArrayList<>();
