@@ -10,6 +10,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import javax.persistence.*;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.text.SimpleDateFormat;
@@ -28,10 +29,10 @@ public class Article {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     @NotBlank(message = "required")
-    @Max(value = 100,message = "Maximum of 100 characters")
+    @Size(max = 100,message = "Maximum of 100 characters")
     private String title;
     @NotBlank(message = "required")
-    @Max(value = 1000,message = "Maximum of 1000 characters")
+    @Size(max = 1000,message = "Maximum of 1000 characters")
     private String brief;
     @NotBlank(message = "required")
     private String content;

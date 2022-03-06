@@ -45,17 +45,13 @@ public class AdminController {
     }
 
 //    Article Section
-     @ResponseBody
+
     @RequestMapping("/articles")
-    public List<Article> allArticles() {
-         return  articleService.findAll();
+    public String allArticles(Model model) {
+        List<Article> articles = articleService.findAll();
+        model.addAttribute("allArticles", articles);
+        return "admin/articles";
     }
-//    @RequestMapping("/articles")
-//    public String allArticles(Model model) {
-//        List<Article> articles = articleService.findAll();
-//        model.addAttribute("allArticles", articles);
-//        return "admin/articles";
-//    }
 
     @RequestMapping("/edit-article")
     public String editArticle(@RequestParam("id") Integer id, Model model) {

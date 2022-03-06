@@ -1,6 +1,7 @@
 package com.example.restfularticlemanagement.controller;
 
 import com.example.restfularticlemanagement.entity.Role;
+import com.example.restfularticlemanagement.entity.Tag;
 import com.example.restfularticlemanagement.exception.UserNotFoundException;
 import com.example.restfularticlemanagement.service.*;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -31,7 +32,6 @@ public class Controller {
     @Autowired
     private TagServiceImpl tagService;
     @Autowired
-    @Qualifier("customEncoder")
     private PasswordEncoder passwordEncoder;
 
     @RequestMapping({"/home","/"})
@@ -49,11 +49,11 @@ public class Controller {
     public String registeredPage(@Valid @ModelAttribute("userr") User user, BindingResult bindingResult) {
         if (bindingResult.hasErrors())
             return "register";
-        User byUsername = userService.findUserByName(user.getUserName());
-        if (byUsername!=null)
+        Boolean isUserPresentByUserName = userService.existsUserByUserName(user.getUserName());
+        if (isUserPresentByUserName)
             return "redirect:/register?user_exists";
-        User byNationalCode = userService.findByNationalCode(user.getNationalCode());
-        if(byNationalCode!=null)
+        Boolean isUserPresentByNationalCode = userService.existsUserByNationalCode(user.getNationalCode());
+        if(isUserPresentByNationalCode)
             return "redirect:/register?n_code_exists";
         user.setPassword(passwordEncoder.encode(user.getNationalCode()));
         Role role = roleService.findRoleByTitle("ROLE_WRITER");

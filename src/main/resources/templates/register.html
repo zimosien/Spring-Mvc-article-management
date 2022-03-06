@@ -16,7 +16,7 @@
                 <th><label for="name">UserName</label></th>
                 <th><input type="text" th:field="*{userName}" id="name" placeholder="UserName"></th>
                 <th><span th:if="${#fields.hasErrors('userName')}" th:errors="*{userName}"></span>
-                    <span th:if="${param.containsKey('user_exists')}" >username/nationalCode already exists</span>
+                    <span th:if="${param.isEmpty()==false}" th:text="'username/nationalCode already exist'"></span>
                 </th>
             </tr>
             <tr>
@@ -28,7 +28,7 @@
                 <th> <label for="nationalcode">National Id</label></th>
                 <th><input type="text" th:field="*{nationalCode}" id="nationalcode" placeholder="National Id" maxlength="10"></th>
                 <th><span th:if="${#fields.hasErrors('nationalCode')}" th:errors="*{nationalCode}"></span>
-                    <span th:if="${param.containsKey('n_code_exists')}" >username/nationalCode already exist</span>
+                    <span th:if="${param.isEmpty()==false}" th:text="'username/nationalCode already exist'"></span>
 
                 </th>
             </tr>

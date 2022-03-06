@@ -1,6 +1,7 @@
 package com.example.restfularticlemanagement.service;
 
 import com.example.restfularticlemanagement.dao.UserDao;
+import com.example.restfularticlemanagement.entity.Role;
 import com.example.restfularticlemanagement.entity.User;
 import com.example.restfularticlemanagement.exception.UserNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImpl implements GeneralService<User, Integer> {
@@ -62,5 +65,13 @@ public class UserServiceImpl implements GeneralService<User, Integer> {
     public User findByNationalCode(String nationalCode){
         User user = userDao.findByNationalCode(nationalCode);
         return user;
+    }
+    @Transactional
+    public Boolean existsUserByUserName (String userName){
+        return userDao.existsUserByUserName(userName);
+    }
+    @Transactional
+    public Boolean existsUserByNationalCode (String nationalCode){
+        return userDao.existsUserByNationalCode(nationalCode);
     }
 }
